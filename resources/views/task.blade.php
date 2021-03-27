@@ -14,7 +14,7 @@
 <body>
     <div id="app2">
         <div class="container">
-            <h3 class="mt-5">Todo 管理システム</h3>
+            <h3 class="mt-5">Task 管理システム</h3>
 
             <div id="taskApp"></div>
 
