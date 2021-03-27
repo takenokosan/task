@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/{any}', function(){
+    return view('App');
+})->where('any', '.*'); //補足：.*は、正規表現で0文字以上の任意の文字列を意味する
