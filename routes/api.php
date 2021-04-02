@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['api']], function(){
     Route::get('get', [TaskController::class,'getTasks']);
+    Route::get('get/{id}', [TaskController::class,'getTasksWhere']);
     Route::post('add', [TaskController::class,'addTasks']);
     Route::post('del', [TaskController::class,'deleteTasks']);
     Route::post('change', [TaskController::class,'changeTasks']);

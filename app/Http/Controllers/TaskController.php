@@ -11,6 +11,10 @@ class TaskController extends Controller
         $tasks = Tasks::all();
         return $tasks;
     }
+    public function getTasksWhere($id){
+        $tasks = Tasks::find($id);
+        return $tasks;
+    }
     public function addTasks(Request $request){
         $tasks = new Tasks();
         $tasks->title = $request->title;
