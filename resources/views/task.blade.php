@@ -14,14 +14,16 @@
 <body>
     <div id="app2">
         <div class="container">
-            <h3 class="mt-5">Task 管理システム</h3>
+            <h3 class="mt-5">Taskを管理する人</h3>
 
-            <div id="taskApp"></div>
+            <!-- <div id="taskApp"></div> -->
+
+            <div id="taskHook"></div>
 
         </div>
     </div>
 
-<!-- avaScript -->
+<!-- JavaScript -->
 <script src="{{ asset('js/app.js')}}"></script>
 </body>
 </html>

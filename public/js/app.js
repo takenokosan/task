@@ -1851,9 +1851,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+// require('./components/Tasks');
 
 
-__webpack_require__(/*! ./components/Tasks */ "./resources/js/components/Tasks.js");
+__webpack_require__(/*! ./components/TasksHook.js */ "./resources/js/components/TasksHook.js");
 
 /***/ }),
 
@@ -1901,199 +1902,235 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/components/Tasks.js":
-/*!******************************************!*\
-  !*** ./resources/js/components/Tasks.js ***!
-  \******************************************/
+/***/ "./resources/js/components/TasksHook.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/TasksHook.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _mordal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mordal */ "./resources/js/components/mordal.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+function TasksHook() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(12),
+      _useState2 = _slicedToArray(_useState, 2),
+      count = _useState2[0],
+      setCount = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(['']),
+      _useState4 = _slicedToArray(_useState3, 2),
+      tasks = _useState4[0],
+      setTasks = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      task = _useState6[0],
+      setTask = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      show = _useState8[0],
+      setShow = _useState8[1];
+
+  var Out = function Out(props) {
+    return tasks.map(function (task, id) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+          children: task.id
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+          children: task.title
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+            onClick: function onClick() {
+              return props.onDelete(task);
+            },
+            className: "btn btn-primary",
+            children: "\u524A\u9664"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+            onClick: function onClick() {
+              return props.onChangeTask(task);
+            },
+            className: "btn btn-primary",
+            children: "\u66F4\u65B0"
+          })
+        })]
+      }, id);
+    });
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/get').then(function (res) {
+      setTasks(res.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }, [setTasks]);
+
+  var addTask = function addTask() {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/add', {
+      title: task
+    }).then(function (res) {
+      setTasks(res.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+
+  var setTmpTask = function setTmpTask(e) {
+    setTask(e.target.value);
+  };
+
+  var deleteTask = function deleteTask(task) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/del', {
+      id: task.id
+    }).then(function (res) {
+      setTasks(res.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+
+  var changeTask = function changeTask(task) {
+    console.log(task);
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/change', {
+      id: task.id,
+      title: task.title
+    }).then(function (res) {
+      setTasks(res.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      onClick: function onClick() {
+        return setShow(true);
+      },
+      children: "\u8868\u793A"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mordal__WEBPACK_IMPORTED_MODULE_3__.default, {
+      show: show,
+      setShow: setShow
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+      children: ["\u30C6\u30B9\u30C8\uFF01", count]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      className: "btn btn-primary",
+      onClick: function onClick() {
+        return setCount(count + 1);
+      },
+      children: "aaa"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      className: "btn btn-primary",
+      onClick: function onClick() {
+        return setCount(count - 1);
+      },
+      children: "bbb"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+      onChange: setTmpTask,
+      type: "text"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      onClick: addTask,
+      children: "\u66F4\u65B0\uFF01"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+      className: "table",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: "ID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: "\u30EA\u30B9\u30C8"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: "\u524A\u9664"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            children: "\u66F4\u65B0"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Out, {
+          onDelete: deleteTask,
+          onChangeTask: changeTask
+        })
+      })]
+    })]
+  });
+}
+
+react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TasksHook, {}), document.getElementById('taskHook'));
+
+/***/ }),
+
+/***/ "./resources/js/components/mordal.js":
+/*!*******************************************!*\
+  !*** ./resources/js/components/mordal.js ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TaskApp)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
+function Mordal(_ref) {
+  var show = _ref.show,
+      setShow = _ref.setShow;
 
-
-
-function RenderRows(props) {
-  return props.tasks.map(function (task) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-        children: task.id
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-        children: task.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-          className: "btn btn-secondary",
-          onClick: function onClick() {
-            return props.deleteTask(task);
-          },
-          children: "\u5B8C\u4E86"
+  if (show) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        id: "overlay",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          id: "content",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+            children: "\u3082\u30FC\u3060\u308B"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              onClick: function onClick() {
+                return setShow(false);
+              },
+              children: "\u9589\u3058\u308B"
+            })
+          })]
         })
-      })]
-    }, task.id);
-  });
+      })
+    });
+  } else {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {});
+  }
 }
 
-var TaskApp = /*#__PURE__*/function (_Component) {
-  _inherits(TaskApp, _Component);
-
-  var _super = _createSuper(TaskApp);
-
-  function TaskApp() {
-    var _this;
-
-    _classCallCheck(this, TaskApp);
-
-    _this = _super.call(this);
-    _this.state = {
-      tasks: [],
-      task: ''
-    };
-    _this.inputChange = _this.inputChange.bind(_assertThisInitialized(_this));
-    _this.addTask = _this.addTask.bind(_assertThisInitialized(_this));
-    _this.deleteTask = _this.deleteTask.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(TaskApp, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('api/get').then(function (res) {
-        _this2.setState({
-          tasks: res.data
-        });
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  }, {
-    key: "inputChange",
-    value: function inputChange(event) {
-      switch (event.target.name) {
-        case 'task':
-          this.setState({
-            task: event.target.value
-          });
-
-        default:
-          break;
-      }
-    }
-  }, {
-    key: "addTask",
-    value: function addTask() {
-      var _this3 = this;
-
-      if (this.state.task == '') {
-        return;
-      }
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/add', {
-        title: this.state.task
-      }).then(function (res) {
-        _this3.setState({
-          tasks: res.data,
-          task: ''
-        });
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  }, {
-    key: "deleteTask",
-    value: function deleteTask(task) {
-      var _this4 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/del', {
-        id: task.id
-      }).then(function (res) {
-        _this4.setState({
-          tasks: res.data
-        });
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "form-group mt-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-            htmlFor: "task",
-            children: "\u65B0\u898Ftask"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            type: "text",
-            className: "form-control",
-            name: "task",
-            value: this.state.task,
-            onChange: this.inputChange
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-          className: "btn btn-primary",
-          onClick: this.addTask,
-          children: "\u767B\u9332"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                children: "ID"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                children: "\u30BF\u30B9\u30AF"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                children: "\u5B8C\u4E86"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(RenderRows, {
-              tasks: this.state.tasks,
-              deleteTask: this.deleteTask
-            })
-          })]
-        })]
-      });
-    }
-  }]);
-
-  return TaskApp;
-}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
-
-
-react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(TaskApp, {}), document.getElementById('taskApp')); // ReactDOM.render(<TodoApp />, document.getElementById('todoApp'));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Mordal);
 
 /***/ }),
 

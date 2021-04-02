@@ -24,4 +24,10 @@ class TaskController extends Controller
         $tasks = Tasks::all();
         return $tasks;
     }
+    public function changeTasks(Request $request){
+        $tasks = Tasks::find($request->id);
+        $tasks->fill($request->all())->save();
+        $tasks = Tasks::all();
+        return $tasks;
+    }
 }
