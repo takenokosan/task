@@ -28,16 +28,16 @@ function Mordal({show,setShow,changeTask,id}){
       <React.Fragment>
         <div id="overlay">
           <div id="content">
-            <form onSubmit={() => console.log('submit')}>
-          <label>ID<br />
-            <input type="text" disabled className="form-control" onChange={(e) => setMordalId(e.target.value)} value={mordalId} /><br />
-          </label><br />
-          <label>title<br />
-            <input type="text" className="form-control" onChange={(e) => setMordalTitle(e.target.value)}  value={mordalTitle} /><br />
-          </label><br />
-          <button className="btn btn-primary" onClick={() => changeTask(mordalId,mordalTitle)}>更新</button>
-          <button className="btn btn-secondary" onClick={() => setShow(false)}>閉じる</button>
-          </form>
+            <form>
+              <label>ID<br />
+                <input type="text" disabled className="form-control" onChange={(e) => setMordalId(e.target.value)} value={mordalId} /><br />
+              </label><br />
+              <label>title<br />
+                <input type="text" className="form-control" onChange={(e) => setMordalTitle(e.target.value)}  value={mordalTitle} /><br />
+              </label><br />
+              <button className="btn btn-primary" onClick={() => changeTask(mordalId,mordalTitle)}>更新</button>
+              <button className="btn btn-secondary" onClick={() => setShow(false)}>閉じる</button>
+            </form>
           </div>
         </div>
       </React.Fragment>

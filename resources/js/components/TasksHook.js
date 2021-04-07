@@ -18,16 +18,18 @@ function TasksHook(){
     </tr>
     );
 
-  useEffect(() => {
+  useEffect(() => getTask(),[setTasks]);
+
+  const getTask = () => {
     axios
-      .get('api/get')
-      .then((res) => {
-        setTasks(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  },[setTasks]);
+    .get('api/get')
+    .then((res) => {
+      setTasks(res.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
 
   const addTask = () => {
     axios
@@ -79,8 +81,14 @@ function TasksHook(){
   return(
     <div>
       <Mordal show={show} setShow={setShow} changeTask={changeTask} id={id} />
-      <input onChange={setTmpTask} type="text" />
-      <button onClick={addTask}>更新！</button>
+      <div className="row">
+        <div className="col-auto">
+          <input className="form-control" onChange={setTmpTask} type="text" />
+        </div>
+        <div className="col-auto">
+          <button className="btn btn-primary" onClick={addTask}>タスクの追加</button>
+        </div>
+      </div>
       <table className="table">
         <thead>
           <tr>
